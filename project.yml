@@ -1,0 +1,32 @@
+name: AbTestingDemo
+options:
+  bundleIdPrefix: com.kit.abtesting
+  deploymentTarget:
+    iOS: "15.0"
+packages:
+  AbTesting-iOS:
+    path: .
+targets:
+  AbTestingDemo:
+    type: application
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources:
+      - path: Sample
+    dependencies:
+      - package: AbTesting-iOS
+        product: AbTesting
+    settings:
+      base:
+        INFOPLIST_FILE: Sample/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.kit.abtesting.demo
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ENABLE_PREVIEWS: YES
+        SWIFT_VERSION: "5.0"
+schemes:
+  AbTestingDemo:
+    build:
+      targets:
+        AbTestingDemo: all
+    run:
+      config: Debug

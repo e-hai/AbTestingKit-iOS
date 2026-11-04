@@ -1,0 +1,16 @@
+# Firebase iOS Configuration
+
+To connect the Sample app to real Firebase Remote Config:
+
+1. Create a project in [Firebase Console](https://console.firebase.google.com/).
+2. Add an iOS App with Bundle ID `com.kit.abtesting.demo`.
+3. Download `GoogleService-Info.plist` and add it to the `Sample/` directory.
+4. In `SampleApp.swift`, uncomment Firebase initialization:
+   ```swift
+   import FirebaseCore
+   import AbTestingFirebase
+
+   // Inside SampleApp.init()
+   FirebaseApp.configure()
+   ```
+5. Relaunch the demo app. It will detect `isFirebaseInitialized()` and automatically install `FirebaseAbTestingProvider`.
