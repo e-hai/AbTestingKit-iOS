@@ -4,7 +4,7 @@ options:
   deploymentTarget:
     iOS: "15.0"
 packages:
-  AbTesting-iOS:
+  AbTestingKit-iOS:
     path: .
 targets:
   AbTestingDemo:
@@ -14,7 +14,7 @@ targets:
     sources:
       - path: Sample
     dependencies:
-      - package: AbTesting-iOS
+      - package: AbTestingKit-iOS
         product: AbTesting
     settings:
       base:

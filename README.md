@@ -1,6 +1,6 @@
-# AbTesting-iOS
+# AbTestingKit-iOS
 
-[![Release](https://img.shields.io/badge/release-1.0.0-blue.svg)](https://github.com/e-hai/AbTesting-iOS/releases)
+[![Release](https://img.shields.io/badge/release-1.0.0-blue.svg)](https://github.com/e-hai/AbTestingKit-iOS/releases)
 [![Swift Package Manager](https://img.shields.io/badge/SPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
 [![Platforms](https://img.shields.io/badge/platforms-iOS%2014%2B%20%7C%20macOS%2011%2B%20%7C%20tvOS%2014%2B%20%7C%20watchOS%207%2B-orange.svg)]()
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
@@ -79,7 +79,7 @@ flowchart TD
 #### 方式 A：通过 Xcode 添加
 在 Xcode 中打开项目，选择 **File > Add Package Dependencies...**，输入仓库地址：
 ```
-https://github.com/e-hai/AbTesting-iOS.git
+https://github.com/e-hai/AbTestingKit-iOS.git
 ```
 Dependency Rule 选择 **Up to Next Major Version**，填入 `1.0.0`。
 
@@ -90,13 +90,13 @@ Dependency Rule 选择 **Up to Next Major Version**，填入 `1.0.0`。
 #### 方式 B：通过 `Package.swift` 添加
 ```swift
 dependencies: [
-    .package(url: "https://github.com/e-hai/AbTesting-iOS.git", from: "1.0.0")
+    .package(url: "https://github.com/e-hai/AbTestingKit-iOS.git", from: "1.0.0")
 ],
 targets: [
     .target(
         name: "YourAppTarget",
         dependencies: [
-            .product(name: "AbTestingFirebase", package: "AbTesting-iOS")
+            .product(name: "AbTestingFirebase", package: "AbTestingKit-iOS")
         ]
     )
 ]
