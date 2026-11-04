@@ -15,7 +15,7 @@ public struct ContentView: View {
 
     private let demoDefaults: [String: Any] = [
         "feature_x": false,
-        "welcome_message": "Hello from in-app defaults",
+        "welcome_message": "来自本地默认值的问候 (iOS)",
         "max_items": 10,
         "score_threshold": 0.75
     ]
@@ -46,10 +46,10 @@ public struct ContentView: View {
         VStack(spacing: 16) {
             ProgressView()
                 .scaleEffect(1.2)
-            Text("Installing provider…")
+            Text("正在安装 Provider…")
                 .font(.headline)
                 .foregroundColor(AbTestingTheme.textPrimary)
-            Text("setDefaults → fetchAndActivate")
+            Text("设置本地默认值 → 拉取并激活")
                 .font(.subheadline)
                 .foregroundColor(AbTestingTheme.textSecondary)
         }
@@ -91,7 +91,7 @@ public struct ContentView: View {
             Text("AbTestingKit")
                 .font(.system(size: 28, weight: .bold, design: .rounded))
                 .foregroundColor(AbTestingTheme.textPrimary)
-            Text("Remote Config Playground (iOS)")
+            Text("远端配置演练场 (iOS)")
                 .font(.subheadline)
                 .foregroundColor(AbTestingTheme.textSecondary)
         }
@@ -109,13 +109,13 @@ public struct ContentView: View {
                         .font(.caption.weight(.bold))
                         .foregroundColor(AbTestingTheme.primary)
                 }
-                Text(activated ? "Remote Activated" : "Defaults Active")
+                Text(activated ? "远端配置已激活" : "默认配置生效中")
                     .font(.headline)
                     .foregroundColor(AbTestingTheme.textPrimary)
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 2) {
-                Text("Fetches")
+                Text("拉取次数")
                     .font(.caption2)
                     .foregroundColor(AbTestingTheme.textSecondary)
                 Text("\(fetchCount)")
@@ -131,7 +131,7 @@ public struct ContentView: View {
 
     private var welcomeHeroCard: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("WELCOME MESSAGE")
+            Text("欢迎文案 (welcome_message)")
                 .font(.caption.weight(.bold))
                 .foregroundColor(AbTestingTheme.textSecondary)
             Text(welcomeMessage)
@@ -148,10 +148,10 @@ public struct ContentView: View {
     private var featureFlagCard: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text("FEATURE FLAG (feature_x)")
+                Text("功能开关 (feature_x)")
                     .font(.caption.weight(.bold))
                     .foregroundColor(AbTestingTheme.textSecondary)
-                Text(featureX ? "Enabled" : "Disabled")
+                Text(featureX ? "已开启" : "已关闭")
                     .font(.headline)
                     .foregroundColor(featureX ? AbTestingTheme.success : AbTestingTheme.textPrimary)
             }
@@ -169,7 +169,7 @@ public struct ContentView: View {
     private var metricsCard: some View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("MAX ITEMS")
+                Text("最大条目 (max_items)")
                     .font(.caption.weight(.bold))
                     .foregroundColor(AbTestingTheme.textSecondary)
                 Text("\(maxItems)")
@@ -183,7 +183,7 @@ public struct ContentView: View {
             .overlay(RoundedRectangle(cornerRadius: 16).stroke(AbTestingTheme.cardBorder, lineWidth: 1))
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("THRESHOLD")
+                Text("阈值分数 (score_threshold)")
                     .font(.caption.weight(.bold))
                     .foregroundColor(AbTestingTheme.textSecondary)
                 Text(String(format: "%.2f", scoreThreshold))
@@ -210,7 +210,7 @@ public struct ContentView: View {
                         .tint(.white)
                 } else {
                     Image(systemName: "arrow.clockwise")
-                    Text("Fetch & Activate")
+                    Text("拉取并激活配置")
                 }
             }
             .font(.headline)
@@ -246,9 +246,9 @@ public struct ContentView: View {
             activated = result
             fetchCount += 1
             readValues()
-            toastMessage = result ? "Fetch & activate succeeded" : "Fetch finished (no new activation)"
+            toastMessage = result ? "拉取并激活成功" : "拉取完成（无新配置激活）"
         } catch {
-            toastMessage = "Fetch failed: \(error.localizedDescription)"
+            toastMessage = "拉取失败：\(error.localizedDescription)"
         }
         isRefreshing = false
     }
@@ -261,15 +261,16 @@ public struct ContentView: View {
     }
 
     private func setupProvider() -> String {
-        // Fallback: FakeAbTestingProvider simulates a remote server payload.
+        // 模拟远端测试 Provider
         let fake = FakeAbTestingProvider()
         fake.setRemoteValues([
             "feature_x": true,
-            "welcome_message": "Hello from Fake remote (iOS)",
+            "welcome_message": "来自模拟远端配置的问候 (iOS)",
             "max_items": 42,
             "score_threshold": 0.90
         ])
         AbTestingClient.install(fake)
-        return "FakeProvider"
+        return "本地测试替身 (Fake)"
     }
+}
 }

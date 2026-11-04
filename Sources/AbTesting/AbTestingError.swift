@@ -7,7 +7,7 @@ public enum AbTestingError: LocalizedError, Equatable {
     public var errorDescription: String? {
         switch self {
         case .notInstalled:
-            return "AbTestingClient is not installed. Call AbTestingClient.install(...) first."
+            return "AbTestingClient 尚未安装，请先调用 AbTestingClient.install(...)。"
         }
     }
 }

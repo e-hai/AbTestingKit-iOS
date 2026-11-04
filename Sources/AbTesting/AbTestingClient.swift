@@ -38,7 +38,7 @@ public final class AbTestingClient: @unchecked Sendable {
     public static func getBool(_ key: String, default: Bool) -> Bool {
         guard let p = currentProvider else {
             #if DEBUG
-            assertionFailure("AbTestingClient is not installed. Call AbTestingClient.install(...) first.")
+            assertionFailure("AbTestingClient 尚未安装，请先调用 AbTestingClient.install(...)。")
             #endif
             return `default`
         }
@@ -54,7 +54,7 @@ public final class AbTestingClient: @unchecked Sendable {
     public static func getString(_ key: String, default: String) -> String {
         guard let p = currentProvider else {
             #if DEBUG
-            assertionFailure("AbTestingClient is not installed. Call AbTestingClient.install(...) first.")
+            assertionFailure("AbTestingClient 尚未安装，请先调用 AbTestingClient.install(...)。")
             #endif
             return `default`
         }
@@ -65,7 +65,7 @@ public final class AbTestingClient: @unchecked Sendable {
     public static func getLong(_ key: String, default: Int64) -> Int64 {
         guard let p = currentProvider else {
             #if DEBUG
-            assertionFailure("AbTestingClient is not installed. Call AbTestingClient.install(...) first.")
+            assertionFailure("AbTestingClient 尚未安装，请先调用 AbTestingClient.install(...)。")
             #endif
             return `default`
         }
@@ -76,7 +76,7 @@ public final class AbTestingClient: @unchecked Sendable {
     public static func getInt(_ key: String, default: Int) -> Int {
         guard let p = currentProvider else {
             #if DEBUG
-            assertionFailure("AbTestingClient is not installed. Call AbTestingClient.install(...) first.")
+            assertionFailure("AbTestingClient 尚未安装，请先调用 AbTestingClient.install(...)。")
             #endif
             return `default`
         }
@@ -87,7 +87,7 @@ public final class AbTestingClient: @unchecked Sendable {
     public static func getDouble(_ key: String, default: Double) -> Double {
         guard let p = currentProvider else {
             #if DEBUG
-            assertionFailure("AbTestingClient is not installed. Call AbTestingClient.install(...) first.")
+            assertionFailure("AbTestingClient 尚未安装，请先调用 AbTestingClient.install(...)。")
             #endif
             return `default`
         }
