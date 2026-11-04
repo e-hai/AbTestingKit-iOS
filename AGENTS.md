@@ -1,31 +1,28 @@
 # AGENTS.md
 
-给在本仓库工作的 AI Agent 的项目约定。人类说明见 [README.md](README.md)。
+给在本仓库工作的 AI Agent 的项目约定与架构指南。人类说明见 [README.md](README.md)。
 
 ## 项目目标
 
-封装 A/B Testing / Remote Config，降低 iOS / Apple 平台业务切换具体后端的成本。业务代码只依赖 `AbTesting` 模块的 `AbTestingClient`；具体后端放在独立实现模块（当前为 `AbTestingFirebase`）。
+封装 A/B Testing / Remote Config，降低 iOS / Apple 平台业务切换具体后端的成本。业务代码只依赖 `AbTesting` 核心模块的 `AbTestingClient` 单例门面；具体后端放在独立实现模块（当前为 `AbTestingFirebase`）。
 
-## 模块边界（必须遵守）
+## 模块边界（必须严格遵守）
 
-| Target / Product | 可依赖 | 禁止 |
-|------------------|--------|------|
+| Target / Product | 可依赖 | 严禁依赖 |
+| :--- | :--- | :--- |
 | `AbTesting` (Core) | Swift 标准库、Foundation | 任何第三方 / 供应商 SDK（如 Firebase）；勿把 Fake 当生产实现 |
-| `AbTestingFirebase` | `AbTesting`、`firebase-ios-sdk` (`FirebaseRemoteConfig`) | 改动 Core API 语义来迁就 Firebase |
-| `AbTestingDemo` (Sample) | `AbTesting` | 把演示专用逻辑塞进 library |
+| `AbTestingFirebase` | `AbTesting`、`firebase-ios-sdk` (`FirebaseRemoteConfig`) | 改动 Core API 语义来迁就 Firebase 特性 |
+| `AbTestingDemo` (Sample) | `AbTesting`、SwiftUI | 把演示专用逻辑塞进 library |
 
-新增后端（如 GrowthBook、自研）时：新建 `AbTesting<Vendor>` Target，实现 `AbTestingProvider`，不要把 vendor SDK 引进 Core。
+> **新增后端规范**：新建 `AbTesting<Vendor>` Target，实现 `AbTestingProvider`，不要把 vendor SDK 引进 Core。
 
-## API 约定
+## API 约定与架构原则
 
-- 对外门面：`AbTestingClient`（`install` + `setDefaults` + `fetchAndActivate` + `getBool` / `getString` / `getLong` / `getInt` / `getDouble`）
-- 扩展点：`AbTestingProvider`（协议）
-- 配置：`AbTestingConfig`（目前主要是 `minimumFetchIntervalInSeconds`）
-- 本地/测试：`FakeAbTestingProvider`（测试替身，含 `setRemoteValues` 模拟远端）
-- Firebase：`FirebaseAbTestingProvider`；可用性用 `isFirebaseInitialized()`
-- **不要**在库内调用 `FirebaseApp.configure()`；由宿主负责
-
-v1 不要擅自加入：variant 模型、Analytics 曝光、Flow/AsyncSequence 监听、多 Provider 路由——除非用户明确要求。
+- **对外门面**：`AbTestingClient`（提供 `install` + `setDefaults` + `fetchAndActivate` + `getBool` / `getString` / `getLong` / `getInt` / `getDouble` + `reset`）
+- **扩展点**：`AbTestingProvider`（协议）
+- **通用配置**：`AbTestingConfig`（目前主要是 `minimumFetchIntervalInSeconds`）
+- **本地/测试替身**：`FakeAbTestingProvider`（测试替身，含 `setRemoteValues` 模拟远端）
+- **控制反转**：库内部**绝不**调用 `FirebaseApp.configure()`；由宿主负责。提供 `isFirebaseInitialized()` 探测状态。
 
 ## 代码与并发风格
 
@@ -37,13 +34,16 @@ v1 不要擅自加入：variant 模型、Analytics 曝光、Flow/AsyncSequence �
 ## 常用命令
 
 ```bash
+# 运行单元测试
 swift test --filter AbTestingTests
+
+# 生成 Xcode 工程
 xcodegen generate
 ```
 
 ## 验证清单（改 API 或 Provider 时）
 
-1. `AbTesting` Core 模块不出现任何 Firebase import
-2. `AbTestingClient` 未 install 时安全回退并输出警告或抛出明确错误
-3. `swift test --filter AbTestingTests` 全部通过
-4. Sample 在无 `GoogleService-Info.plist` 时仍能编译并用 `FakeAbTestingProvider` 跑通流程
+1. `AbTesting` Core 模块不出现任何 Firebase import。
+2. `AbTestingClient` 未 install 时安全回退并输出警告或抛出明确错误。
+3. `swift test --filter AbTestingTests` 全部通过。
+4. Sample 在无 `GoogleService-Info.plist` 时仍能编译并用 `FakeAbTestingProvider` 跑通流程。
